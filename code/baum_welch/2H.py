@@ -18,8 +18,6 @@ def unsupervised_learning(n_states, n_iters):
         n_states:   Number of hidden states that the HMM should have.
     '''
     genres, genre_map = Utility.load_ron_hidden()
-    print(genres)
-    return
 
     # Train the HMM.
     HMM = unsupervised_HMM(genres, n_states, n_iters)
