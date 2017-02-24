@@ -4,11 +4,15 @@
 
 import string
 
-def get_poems():
+# Helper function to separate the file into individual sonnets
+def get_poems(reverse=False):
     with open('shakespeare.txt') as file:
         poems = []
         curr_poem = ''
         for line in file:
+            if reverse:
+                line = line.rstrip() # strip the newline
+                line = line[::-1] + "\n" # dealing with newlines
             if len(line.strip().split()) > 1:
                 curr_poem += line
             elif curr_poem:
@@ -16,8 +20,10 @@ def get_poems():
                 curr_poem = ''
     return poems
 
-def get_shakespeare():
-    poems = get_poems()
+# Main function, which separates quatrains and couplets
+# Set reverse to true to receive data with each line backwards
+def get_shakespeare(reverse=False):
+    poems = get_poems(reverse=reverse)
     word_map = {}
 
     quatrains = []
@@ -28,6 +34,7 @@ def get_shakespeare():
         poem = poem.translate(translator)
         poem = poem.lower()
         poem = poem.strip().split('\n')
+        # Sonnet 99 and 126
         if len(poem) != 14:
             continue
 
@@ -44,6 +51,7 @@ def get_shakespeare():
         quatrains.append(q)
         couplets.append(c)
 
+    # All words must be converted to unique numbers
     dq = {}
     curr_ind = 0
     quatrains_map = []
@@ -58,6 +66,8 @@ def get_shakespeare():
             q_map.append(dq[word])
         quatrains_map.append(q_map)
 
+    # All words must be converted to unique numbers
+    # Couplets must have a separate dictionary in order to work with the HMM model
     dc = {}
     curr_ind = 0
     for c in couplets:
@@ -70,4 +80,3 @@ def get_shakespeare():
             c_map.append(dc[word])
         couplets_map.append(c_map)
     return quatrains_map, couplets_map, dq, dc
-
