@@ -32,10 +32,3 @@ def parse():
 	inputfile.close()
 
 	return quatrains, couplets
-
-
-print(parse())
-
-
-
-
