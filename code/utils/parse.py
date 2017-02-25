@@ -2,7 +2,8 @@
 # "parsed_data.txt" will contain a list of quatrains, followed by a list of couplets, followed by a dictionary
 # words will be encoded as unqiue numbers using the dictionary
 
-import string
+from collections import defaultdict
+from utils.vocal import count_syllables
 
 # Helper function to separate the file into individual sonnets
 def get_poems(reverse=False):
@@ -20,9 +21,36 @@ def get_poems(reverse=False):
                 curr_poem = ''
     return poems
 
+def id_map(data):
+    d = {}
+    curr_ind = 0
+    data_map = []
+    for x in data:
+        x_map = []
+        for el in x:
+            if el not in d:
+                d[el] = curr_ind
+                d[curr_ind] = el
+                curr_ind += 1
+            x_map.append(d[el])
+        data_map.append(x_map)
+    return data_map, d
+
+def syl_map(data):
+    d = defaultdict(set)
+    data_map = []
+    for x in data:
+        x_map = []
+        for el in x:
+            ind = count_syllables(el)
+            d[ind].add(el)
+            x_map.append(ind)
+        data_map.append(x_map)
+    return data_map, d
+
 # Main function, which separates quatrains and couplets
 # Set reverse to true to receive data with each line backwards
-def get_shakespeare(reverse=False):
+def get_shakespeare(reverse=False, mapping='id'):
     poems = get_poems(reverse=reverse)
     word_map = {}
 
@@ -30,7 +58,7 @@ def get_shakespeare(reverse=False):
     couplets = []
 
     for poem in poems:
-        translator = str.maketrans('', '', ',:;.')
+        translator = str.maketrans('', '', ',:;.?!')
         poem = poem.translate(translator)
         poem = poem.lower()
         poem = poem.strip().split('\n')
@@ -51,32 +79,12 @@ def get_shakespeare(reverse=False):
         quatrains.append(q)
         couplets.append(c)
 
-    # All words must be converted to unique numbers
-    dq = {}
-    curr_ind = 0
-    quatrains_map = []
-    couplets_map = []
-    for q in quatrains:
-        q_map = []
-        for word in q:
-            if word not in dq:
-                dq[word] = curr_ind
-                dq[curr_ind] = word
-                curr_ind += 1
-            q_map.append(dq[word])
-        quatrains_map.append(q_map)
-
-    # All words must be converted to unique numbers
-    # Couplets must have a separate dictionary in order to work with the HMM model
-    dc = {}
-    curr_ind = 0
-    for c in couplets:
-        c_map = []
-        for word in c:
-            if word not in dc:
-                dc[word] = curr_ind
-                dc[curr_ind] = word
-                curr_ind += 1
-            c_map.append(dc[word])
-        couplets_map.append(c_map)
-    return quatrains_map, couplets_map, dq, dc
+    if mapping == 'id':
+        map_f = id_map
+    elif mapping == 'syllables':
+        map_f = syl_map
+    else:
+        raise Exception('Invalid mapping: {}'.format(mapping))
+    qm, dq = map_f(quatrains)
+    cm, dc = map_f(couplets)
+    return qm, cm, dq, dc
