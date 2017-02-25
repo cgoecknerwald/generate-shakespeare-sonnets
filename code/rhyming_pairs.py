@@ -29,9 +29,9 @@ def get_rhyme_pairs():
                 line = line.rstrip()
                 last_word = line.split(" ")[-1]
                 # remove any punctuation
-                translator = str.maketrans('', '', ',:;\'.?!')
+                translator = str.maketrans('', '', ',:;\'.?!()')
                 last_word = last_word.translate(translator)
-                sublst.append(last_word)
+                sublst.append(last_word.lower())
         lst.append(sublst)
         sublst = []
     for wordset in lst:
@@ -41,6 +41,47 @@ def get_rhyme_pairs():
 
     return rhyming_pairs
 
-def combine_pairs():
+# merge the rhyming pairs into supersets
+def merge(lsts):
+  sets = [set(lst) for lst in lsts if lst]
+  merged = 1
+  while merged:
+    merged = 0
+    results = []
+    while sets:
+      common, rest = sets[0], sets[1:]
+      sets = []
+      for x in rest:
+        if x.isdisjoint(common):
+          sets.append(x)
+        else:
+          merged = 1
+          common |= x
+      results.append(common)
+    sets = results
+  return sets
 
-print(get_rhyme_pairs())
+print(merge(get_rhyme_pairs()))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
