@@ -19,6 +19,8 @@ def get_poems(reverse=False):
             elif curr_poem:
                 poems.append(curr_poem)
                 curr_poem = ''
+        if curr_poem:
+            poems.append(curr_poem)
     return poems
 
 def id_map(data):
