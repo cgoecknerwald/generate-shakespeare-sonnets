@@ -58,7 +58,7 @@ def get_shakespeare(reverse=False, mapping='id'):
     couplets = []
 
     for poem in poems:
-        translator = str.maketrans('', '', ',:;.?!')
+        translator = str.maketrans('', '', ',:;.?!()')
         poem = poem.translate(translator)
         poem = poem.lower()
         poem = poem.strip().split('\n')

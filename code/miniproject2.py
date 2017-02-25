@@ -13,18 +13,19 @@ def train():
     q_model = unsupervised_HMM(q, 6, 10)
 
     print('Emitting')
-    sample = lambda x: random.sample(x, 1)[0]
+    print()
+
     for i in range(0,12):
         num_words = random.choice(distribution)
-        words = map(lambda x: sample(dq[x]), q_model.generate_emission(num_words))
+        words = list(map(dq.get, q_model.generate_emission(num_words)))
         while sum(map(count_syllables, words)) != 10:
-            words = map(lambda x: sample(dq[x]), q_model.generate_emission(num_words))
+            words = list(map(dq.get, q_model.generate_emission(num_words)))
         print(' '.join(words))
     for _ in range(0,2):
         num_words = random.choice(distribution)
-        words = map(lambda x: sample(dc[x]), c_model.generate_emission(num_words))
+        words = list(map(dc.get, c_model.generate_emission(num_words)))
         while sum(map(count_syllables, words)) != 10:
-            words = map(lambda x: sample(dc[x]), c_model.generate_emission(num_words))
+            words = list(map(dc.get, c_model.generate_emission(num_words)))
         print(' '.join(words))
 
 train()

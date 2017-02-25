@@ -13,9 +13,8 @@ d['unbless'] = ['0'] * 2
 d['uneared'] = ['0'] * 2
 
 def syllables(word):
-    if not word:
-        return 0
     if word in d:
+        # only care about one pronounciation.
         return len(list(y for y in d[word][0] if isdigit(y[-1])))
     count = 0
     vowels = 'aeiouy'
@@ -38,13 +37,6 @@ def isdigit(x):
 
 def count_syllables(word):
     w = word
-    words_ = list(filter(bool, word.split("'")))
-    if len(words_) == 0:
-        return 0
-    word = words_[0]
+    word = list(filter(bool, word.split("'")))[0]
     words = word.split("-")
-    for word in words:
-        if not word:
-            input(w)
-    # only care about one pronounciation.
     return sum(syllables(word) for word in words)
