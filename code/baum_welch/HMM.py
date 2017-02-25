@@ -16,11 +16,11 @@ class HiddenMarkovModel:
     def __init__(self, A, O):
         '''
         Initializes an HMM. Assumes the following:
-            - States and observations are integers starting from 0. 
+            - States and observations are integers starting from 0.
             - There is a start state (see notes on A_start below). There
               is no integer associated with the start state, only
               probabilities in the vector A_start.
-            - There is no end state. 
+            - There is no end state.
 
         Arguments:
             A:          Transition matrix with dimensions L x L.
@@ -36,11 +36,11 @@ class HiddenMarkovModel:
             L:          Number of states.
 
             D:          Number of observations.
-            
+
             A:          The transition matrix.
-            
+
             O:          The observation matrix.
-            
+
             A_start:    Starting transition probabilities. The i^th element
                         is the probability of transitioning from the start
                         state to state i. For simplicity, we assume that
@@ -213,7 +213,7 @@ class HiddenMarkovModel:
                 # The i^th index is P(y^t = i, x).
                 for t in range(1, M + 1):
                     P_curr = [0. for _ in range(self.L)]
-                    
+
                     for curr in range(self.L):
                         P_curr[curr] = alphas[t][curr] * betas[t][curr]
 
@@ -260,10 +260,10 @@ class HiddenMarkovModel:
                 for xt in range(self.D):
                     self.O[curr][xt] = O_num[curr][xt] / O_den[curr]
 
-    def generate_emission(self, M):
+    def generate_emission(self, M, initial=None):
         '''
         Generates an emission of length M, assuming that the starting state
-        is chosen uniformly at random. 
+        is chosen uniformly at random.
 
         Arguments:
             M:          Length of the emission to generate.
@@ -272,7 +272,11 @@ class HiddenMarkovModel:
             emission:   The randomly generated emission as a string.
         '''
 
-        emission = []
+        # Naive initial generation
+        if initial is None:
+            initial = []
+        emission = initial[:]
+
         state = random.choice(range(self.L))
 
         for t in range(M):
@@ -309,7 +313,7 @@ def unsupervised_HMM(X, n_states, n_iters):
 
     Arguments:
         X:          A dataset consisting of input sequences in the form
-                    of lists of variable length, consisting of integers 
+                    of lists of variable length, consisting of integers
                     ranging from 0 to D - 1. In other words, a list of lists.
 
         n_states:   Number of hidden states to use in training.
@@ -319,7 +323,7 @@ def unsupervised_HMM(X, n_states, n_iters):
     observations = set()
     for x in X:
         observations |= set(x)
-    
+
     # Compute L and D.
     L = n_states
     D = len(observations)
@@ -331,7 +335,7 @@ def unsupervised_HMM(X, n_states, n_iters):
         norm = sum(A[i])
         for j in range(len(A[i])):
             A[i][j] /= norm
-    
+
     O = [[random.random() for i in range(D)] for j in range(L)]
 
     for i in range(len(O)):

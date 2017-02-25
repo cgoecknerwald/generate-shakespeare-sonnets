@@ -1,5 +1,8 @@
+import os
 import nltk
 from nltk.corpus import cmudict
+from random import choice, sample
+
 d = cmudict.dict()
 d['riper'] = ['R', 'AI0', 'PP', 'ER0']
 d['buriest'] = ['B', 'UR0', 'IE0', 'E', 'ST0']
@@ -40,3 +43,11 @@ def count_syllables(word):
     word = list(filter(bool, word.split("'")))[0]
     words = word.split("-")
     return sum(syllables(word) for word in words)
+
+
+filename = os.path.join(os.path.dirname(__file__), 'rhyme_pairs.txt')
+with open(filename) as file:
+    rhyme = eval(file.read())
+
+def get_rhyme_pair():
+    return sample(choice(rhyme), 2)

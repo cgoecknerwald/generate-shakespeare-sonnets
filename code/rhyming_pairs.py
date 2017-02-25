@@ -42,5 +42,6 @@ def get_rhyme_pairs():
     return rhyming_pairs
 
 def combine_pairs():
+    pass
 
 print(get_rhyme_pairs())
