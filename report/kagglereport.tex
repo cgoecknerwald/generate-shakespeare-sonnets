@@ -1,7 +1,11 @@
+
 \newif\ifshowsolutions
 \showsolutionstrue
 \input{preamble}
 \newcommand{\boldline}[1]{\underline{\textbf{#1}}}
+
+\usepackage{graphicx}
+\graphicspath{ {images/} }
 
 \chead{%
   {\vbox{%
@@ -47,10 +51,15 @@
     % Explain your choices, as well why you chose these choices initially. What was your final pre-processing? How did you tokenize your words, and split up the data into separate sequences? What changed as you continued on your project? What did you try that didn’t work? Also write about any analysis you did on the dataset to help you make these decisions.
 
     %%%%%%%%%%%%%%%%%%%%%%
-    \item \boldline{Topic}
+    \item \boldline{Handling the dataset}
     \begin{itemize}
-        \item \textbf{Subtopic:}
-        \item \textbf{Subtopic:}
+        \item \textbf{Quatrains versus couplets:} Initially, we thought that we should train two different models, one on lines from the quatrains, and one on lines from the couplets. This way, we could more accurately capture the ``shift in tone'' that Shakespeare often performs during his sonnets. However, since we decided to `force' rhyming using a rhyming dictionary garnered from the dataset, we ended up combining quatrains and couplets into one model.
+        \item \textbf{Punctuation:} we stripped the following punctuation from the sonnet data
+    \end{itemize}
+    \item \boldline{The dictionary}
+    \begin{itemize}
+        \item \textbf{Reason for use:} We used a dictionary to assign each word a unique number. We had to set all word to lowercase first, to avoid using ``The'' in the middle of a sentence, when we would rather have ``the''. 
+        \item \textbf{Unexpected trouble:} The use of the dictionary is also one reason why we decided to treat lines from quatrains and couplets equally. Initially, we had one large dictionary that covered all words Shakespeare used in the dataset. As expected, some words were used only in the couplets, or only in the quatrains. However, we ran into errors when training two separate Hidden Markov Models, most likely because the model expected that if we gave it words (represented by numbers) $\{ 3, 15, 23, 14, 194\}$, that there would be $(1-194)$ states available. However, this was not the case. 
     \end{itemize}
 
 
@@ -64,27 +73,13 @@
     % Your report should also contain a section highlighting your HMM. What packages did you use, if any? How did you choose the number of hidden states?
 
     %%%%%%%%%%%%%%%%%%%%%%
-    \item \boldline{Topic}
+    \item \boldline{HMM}
 
     \begin{itemize}
-    \item \textbf{Subtopic:}
-    \item \textbf{Subtopic:}
+    \item \textbf{Naive poem generation:}
+    \item \textbf{Package:}
+    \item \textbf{Number of hidden states:}
     \end{itemize}
-
-    %%%%%%%%%%%%%%%%%%%%%%
-    \item \boldline{Topic}
-
-    \begin{itemize}
-    \item \textbf{Subtopic:}
-    \item \textbf{Subtopic:}
-    \end{itemize}
-
-    % If you would like to insert a figure, you can just use the following five lines, replacing the image path with your own and the caption with a 1-2 sentence description of what the image is and how it is relevant or useful.
-    % \begin{figure}[H]
-    % \centering
-    % \includegraphics[width=\textwidth]{smiley.png}
-    % \caption{Insert caption here.}
-    % \end{figure}
 
 
 \end{itemize}
@@ -97,14 +92,20 @@
     % In your report, you should explain your interpretation of how a Hidden Markov Model learns patterns in Shakespeare’s texts. You should briefly elaborate on the methods you used to analyze the model. In addition, for at least 5 hidden states give a list of the top 10 words that associate with this hidden state and state any common features these groups. Furthermore, try to interpret and visualize the learned transitions between states. A possible suggestion is to draw a transition diagram of your markov model and give de- scriptive names to the sates. Feel free to be creative with your visualizations, but remember that accurately representing data is still your primary objective. Your figures, tables, and diagrams should contribute to a discussion about your model.
 
     %%%%%%%%%%%%%%%%%%%%%%
-    \item \boldline{Topic}
+    
+    \item \boldline{Interpretations}
 
     \begin{itemize}
-    \item \textbf{Subtopic:}
-    \item \textbf{Subtopic:}
+    \item \textbf{Analyzing the model:}
+    \item \textbf{Grammar:} We have noticed that...
+    \item \textbf{Imagery:} The below image shows...
     \end{itemize}
 
 \end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{center}
+\includegraphics[scale=.4]{states.png}
+\end{center}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -114,11 +115,11 @@
     % In your report, describe your algorithm for generating the 14 line sonnet. Include at least one sonnet generated from your unsupervized trained HMM in your final report as an example. You should comment on the quality of geneating poems in this naive manner. How is the accurate is rhyme, rythym, and syllable count to what a sonnet should be? Do your poems make any sense? Does it retain Shakespeare’s original voice? How does training with different number of hidden states effect the poems generated (in a qualita- tive manner)? For the good qualities that you describe, also discuss how you think the HMM was able to capture these qualities.
 
     %%%%%%%%%%%%%%%%%%%%%%
-    \item \boldline{Topic}
+    \item \boldline{Algorithm}
 
     \begin{itemize}
-    \item \textbf{Subtopic:}
-    \item \textbf{Subtopic:}
+    \item \textbf{Example sonnet:}
+    \item \textbf{Quality of poem:}
     \end{itemize}
 
 
