@@ -58,8 +58,8 @@
     \end{itemize}
     \item \boldline{The dictionary}
     \begin{itemize}
-        \item \textbf{Reason for use:} We used a dictionary to assign each word a unique number. We had to set all word to lowercase first, to avoid using ``The'' in the middle of a sentence, when we would rather have ``the''. 
-        \item \textbf{Unexpected trouble:} The use of the dictionary is also one reason why we decided to treat lines from quatrains and couplets equally. Initially, we had one large dictionary that covered all words Shakespeare used in the dataset. As expected, some words were used only in the couplets, or only in the quatrains. However, we ran into errors when training two separate Hidden Markov Models, most likely because the model expected that if we gave it words (represented by numbers) $\{ 3, 15, 23, 14, 194\}$, that there would be $(1-194)$ states available. However, this was not the case. 
+        \item \textbf{Reason for use:} We used a dictionary to assign each word a unique number. We had to set all word to lowercase first, to avoid using ``The'' in the middle of a sentence, when we would rather have ``the''.
+        \item \textbf{Unexpected trouble:} The use of the dictionary is also one reason why we decided to treat lines from quatrains and couplets equally. Initially, we had one large dictionary that covered all words Shakespeare used in the dataset. As expected, some words were used only in the couplets, or only in the quatrains. However, we ran into errors when training two separate Hidden Markov Models, most likely because the model expected that if we gave it words (represented by numbers) $\{ 3, 15, 23, 14, 194\}$, that there would be $(1-194)$ states available. However, this was not the case.
     \end{itemize}
 
 
@@ -92,20 +92,69 @@
     % In your report, you should explain your interpretation of how a Hidden Markov Model learns patterns in Shakespeare’s texts. You should briefly elaborate on the methods you used to analyze the model. In addition, for at least 5 hidden states give a list of the top 10 words that associate with this hidden state and state any common features these groups. Furthermore, try to interpret and visualize the learned transitions between states. A possible suggestion is to draw a transition diagram of your markov model and give de- scriptive names to the sates. Feel free to be creative with your visualizations, but remember that accurately representing data is still your primary objective. Your figures, tables, and diagrams should contribute to a discussion about your model.
 
     %%%%%%%%%%%%%%%%%%%%%%
-    
+
     \item \boldline{Interpretations}
 
     \begin{itemize}
     \item \textbf{Analyzing the model:}
-    \item \textbf{Grammar:} We have noticed that...
-    \item \textbf{Imagery:} The below image shows...
+        We tokenized the sonnets by words, removing punctuation. Because of
+        this, the HMM can only determine patterns between words. Thus,
+        the 6 HMM states have some complex pattern between the words,
+        unlikely to be too related to the English grammar. \\
+    \item \textbf{Imagery:}
+        The below image shows the 6 states and their transitions. Each state
+        is colored to show directed transitions. That is, since state 1 is
+        yellow, all yellow transitions come from state 1. More transparent
+        transitions show lesser probabilities. So, the nearly opaque transition
+        from state 1 to state 5 is of comparitively high probability. Also,
+        the transitions are drawn in order of their probabilities. So, if
+        some transition $a$ appears above transition $b$, the transition $a$
+        has higher probability than transition $b$. \\
+
+        Furthermore, we have the top 10 words for each state represented
+        next to the states. However, we disallow repititions of words in
+        the image. If a word appears next to a state, then that state was
+        the state that was most likely to emmit it.
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[scale=.4]{states.png}
+    \end{center}
+
+    \pagebreak
+
+    \begin{itemize}
+    \item \textbf{State Analysis:}
+        We notice that state 1 has a high collection of verbs. This continues
+        as well: checking the top 20 words for state 1 yields ``are, may, was,
+        should, say, did, must, know, might, away'', which is further composed
+        mostly of verbs. \\
+
+        State 1 has the highest probability of transitioning to state 5, which
+        contains mainly prepositions and some nouns (which correctly follow
+        from verbs). \\
+
+        State 5 has the highest probability of transitioning to state 3, which
+        has several possesive nouns. Inspecting the top 20 words of state 3
+        yields more possesive nouns such as ``her, thine, our'', and also
+        some adjectives. \\
+
+        State 3 then has the highest probability of transitioning to state 4,
+        which contains even more nouns, as the sentence at this point, if
+        began at state 3 (a likely verb), should reach the noun the verb is
+        modifying. \\
+
+        State 4 then has similar probabilities of transitioning to states 1
+        and 0, which allow for more compound phrases. Since the HMM mainly
+        trained on single lines of the sonnets, taking more than 9 transitions
+        almost guarantees a grammerless phrase. The average number of words
+        per line in all of the sonnets is just over 8, thus the HMM has
+        difficulty outputing coherent long phrases.
     \end{itemize}
 
 \end{itemize}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{center}
-\includegraphics[scale=.4]{states.png}
-\end{center}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -97,7 +97,7 @@ def draw():
     textSize(14)
     for state in range(len(A)):
         # top_words = map(lambda x: word_map[x[0]], sorted(enumerate(O[state]), reverse=True, key=lambda x: x[1])[:10])
-        top_words = map(lambda x: x[1], top[state][:10])
+        top_words = map(lambda x: x[1], top[state][10:20])
         rad = 2 * pi * state/len(A)
         x, y = (c_rad + 150) * cos(rad), (c_rad + 150) * sin(rad)
         if state in (1, 5):
@@ -109,7 +109,7 @@ def draw():
         if state in(0, 3):
             y -= 100
         text('\n'.join(top_words), x, y)
-    
+    # saveFrame('states.png')
     noLoop()
 
 
