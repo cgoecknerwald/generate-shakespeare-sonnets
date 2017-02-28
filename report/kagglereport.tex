@@ -55,7 +55,9 @@
     \begin{itemize}
         \item \textbf{Quatrains versus couplets:} Initially, we thought that we should train two different models, one on lines from the quatrains, and one on lines from the couplets. This way, we could more accurately capture the ``shift in tone'' that Shakespeare often performs during his sonnets. However, since we decided to `force' rhyming using a rhyming dictionary garnered from the dataset, we ended up combining quatrains and couplets into one model.
         \item \textbf{Punctuation:} We stripped the following punctuation from the sonnet data, including the parentheses: $,.:;!?()$
-        \item \textbf{Tokenization:} We tokenized on the words in the sonnets.
+        \item \textbf{Tokenization:} We tokenized on the words in the sonnets,
+        essentially giving the HMM each line of every sonnet to train on. We
+        also lower cased all of the sonnets.
     \end{itemize}
     \item \boldline{The dictionary}
     \begin{itemize}
@@ -69,6 +71,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\pagebreak
+
 \section{Unsupervised Learning}
 \medskip
 \begin{itemize}
@@ -79,8 +83,17 @@
 
     \begin{itemize}
     \item \textbf{Naive poem generation:}
-    \item \textbf{Package:}
+        We used the HW5 solutions for the Baum-Welch implementation.
+    \item \textbf{Packages:}
+        We used native python for tokenization into words. We then used, nltk
+        to count syllables, along with a heuristic for words that nltk did not
+        previously know.
     \item \textbf{Number of hidden states:}
+        6 states seemed to yield (loosely) the most coherent poems. Attempting
+        with greater than 10 states seemed to produce erratice sentences (ones
+        containing multiples participles and uses of ``I''). Training with
+        2 states yielded a very simplistic model, essentially selecting words
+        at random with probabilities proportional to their occurence.
     \end{itemize}
 
 
@@ -88,6 +101,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\pagebreak
 \section{Visualization \& Interpretation}
 \medskip
 \begin{itemize}
@@ -160,6 +174,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\pagebreak
+
 \section{Poetry Generation}
 \medskip
 \begin{itemize}
@@ -203,6 +219,16 @@
     \end{verbatim}
 
     \item \textbf{Algorithm:}
+        We first randomly pick 7 pairs of rhyming words. Then, since we trained
+        the HMM in reverse, we feed each of these 14 words in the HMM to yield
+        14 lines of 10 syllables. In order to ensure the proper number of
+        syllables, we pick a random number of words (in accordance to the
+        distribution of the number of words in each line), and query the HMM
+        to emmit a sentence of that length until it has exactly 10 syllables.
+        If this does not occur within 1000 attempts, we generate a new
+        random sentence length, and attempt the process again. We then
+        reverse these emmissions and assemble them in the ``ababcdcdefefgg''
+        manner.
 
 
     \end{itemize}
@@ -210,8 +236,8 @@
     %%%%%%%%%%%%%%%%%%%%%%
     \item \boldline{Quality of generated poems}
     \begin{itemize}
-        \item \textbf{Rhyme and the rhyming dictionary:} We forced rhyming by creating a rhyming dictionary of all of Shakespeare's ending words. We iterated through the sonnets, creating pairs of rhyming words using the known rhyme scheme ``ababcdcdefefgg'', then used a clumping algorithm to create super-pairs. For example, $(head, bed)$ and $(head, dead)$ would combine to $(head,bed,dead)$, then search again for additional matches. So, when building a line, we would pick a random rhyming word, build the line `backwards', then pick another rhyming word from the rhyming set (sometimes the same word if the size of the set was one), then repeat. Then, once we had 7 rhyming lines, we simply organized them into the ``ababcdcdefefgg'' rhyme scheme.
-        \item \textbf{Rhythmn:} 
+        \item \textbf{Rhythmn:} We did not encorporate stressed and unstressed
+            syllables.
         \item \textbf{Syllables:} In order to have 10 syllables, per line, we ran a script to gather data on the average number of words per line in Shakespeare's sonnet. The distribution was approximately ([5 words] * 2 , [6 words] * 15 , [7 words] * 41 , [8 words] * 70 , [9 words] * 63 , [10 words] * 25). We used this distribution data to pick a random number of words, generated that many words (minus one, since we picked the ending word to force rhyming), then would continously generate new lines until we had a line that was 10 syllables using our counting algorithm.
         To count the number of syllables in a line, we mostly used the NLTK. However, there were some words used by Shakespeare that were not included in the NLTK. So, we supplemented this process with a less-accurate but still quite useful syllable-counting algorithm that would give its best guess wherever NTLK failed.
         \item \textbf{Grammar:} The grammar was perhaps the most difficult part of the poems. On occasion, we would get two words in a row, such as ``I I'' or ``the the''. More commonly, we would see two parts-of-sentence that did not make sense together, such as ``a the'', ``an a'', or ``thee thou''.
@@ -231,10 +257,11 @@
     \item \boldline{Improving poem quality}
 
     \begin{itemize}
-    \item \textbf{Grammar:}
-    \item \textbf{Rhyme scheme:}
-    \item \textbf{Syllables:}
-    \item \textbf{Punctuation:}
+    \item \textbf{Rhyme and the rhyming dictionary:} We forced rhyming by creating a rhyming dictionary of all of Shakespeare's ending words. We iterated through the sonnets, creating pairs of rhyming words using the known rhyme scheme ``ababcdcdefefgg'', then used a clumping algorithm to create super-pairs. For example, $(head, bed)$ and $(head, dead)$ would combine to $(head,bed,dead)$, then search again for additional matches. So, when building a line, we would pick a random rhyming word, build the line `backwards', then pick another rhyming word from the rhyming set (sometimes the same word if the size of the set was one), then repeat. Then, once we had 7 rhyming lines, we simply organized them into the ``ababcdcdefefgg'' rhyme scheme.
+    \item \textbf{Syllables:} We properly handled words with hyphens and
+    apostrophies by splitting words on those delimiters.
+    \item \textbf{Punctuation:} We readded capitalization and punctuation at
+    as a post-processing step.
     \end{itemize}
 
 \end{itemize}
