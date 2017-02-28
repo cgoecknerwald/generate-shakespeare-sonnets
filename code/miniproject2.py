@@ -9,7 +9,24 @@ distribution = [5] * 2 + [6] * 15 + [7] * 41 + [8] * 70 + [9] * 63 + [10] * 25
 def generate_poems(reverse=False, n_poems=1):
     lines, word_map = get_shakespeare(mapping='id', reverse=reverse)
     print('Training')
-    model = unsupervised_HMM(lines, 6, 10)
+    model = unsupervised_HMM(lines, 6, 100)
+    print('Writing')
+    with open('../visualization/A_start.txt', 'w') as f:
+            f.write(' '.join(map(str, model.A_start)))
+            f.write('\n')
+    with open('../visualization/A.txt', 'w') as f:
+        for a in model.A:
+            f.write(' '.join(map(str, a)))
+            f.write('\n')
+    with open('../visualization/O.txt', 'w') as f:
+        for a in model.O:
+            f.write(' '.join(map(str, a)))
+            f.write('\n')
+    with open('../visualization/word_map.txt', 'w') as f:
+        for k, v in word_map.items():
+            f.write('{} {}\n'.format(k, v))
+            f.write('\n')
+    quit()
 
     print('Emitting')
     print()

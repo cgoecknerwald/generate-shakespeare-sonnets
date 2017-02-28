@@ -15,6 +15,91 @@
 13 On made not first a of heart the control
 14 Behind that then this stain yet love's now soul
 
+We claim here, that sonnet 1, the first of many of the model's sonnets,
+enlightens the reader on the trials of any and all students taking CS 24.
+
+From here on out, the author is referred to as 'Will'.
+
+Throughout this poem, Will takes on the mind of a student, during the last
+minutes before a CS 24 set is due. We can see strong emphasis in the
+frustration of the student throughout the sonnet, as we follow him through
+his debugging process. Let us venture with Will...
+
+Line 1:  Here, the student crys in frustration, 'Of dead hell'. The diagloge
+         further refers to 'when' and 'where', has this value gone,
+         'to which register' did it go? A beautiful line among many, but here
+         we see the true vigor within a CS 24 student while debugging.
+
+Line 2:  Here we have another simulated exclamation of a frustrated student,
+         yelling at the machine, which, despite being silent, speaks many evils.
+         Thus, the student demands to kill the machine, to kill that silence,
+         for most of it's evil is hidden, and it is not true to it's innocent
+         appearance.
+
+Line 3:  Here we have the students majestic yawp. A war cry, if you will.
+         Life may bury me, by my death will always reflect my true character.
+         The student has a surge of hope!
+
+Line 4:  With the student filled with ambition, he carries on. He sees a vision,
+         the student sees the destruction of the bug that has plagued him.
+         After 'Repair', he will 'spring afterwards from the sight side'. The
+         'sight side' being his third eye, his abilities to see the future.
+         The student knows, as his vision ends, so will his tribulations.
+
+Line 5:  In a twist of words, Will wishes to explain that the student sees,
+         the present is alone, the current time will not continue, the future
+         will not come, if the bug is not destroyed. A simple contradiction,
+         which the student logician reaches. Time cannot continue if the bug
+         is not gone, thus, since time will continue, the bug will be found.
+
+Line 6:  Using a visual tool (the 'bevel'), the student explains that he should
+         take pride in his ability to find the bug. The loss the bug has caused,
+         is only slight, like the angle in the slope of a beveled edge.
+
+Line 7:  'Be so thee': Be not only proud, but be yourself! The student exclaims.
+         'ripen', and mature, and bring to life the prognosticate, the prophecy.
+         He implies here that there exists a prophecy, one of the bug being
+         finally erradicated.
+
+Line 8:  We see a new face of the student with this line. He essentially says
+         that such an issue is soft or 'gentle for thou'. He slightly braggs
+         that a simple derefferencing of a null pointer is child's play in
+         comparison to the student.
+
+Line 9:  Again, we dive further into this new arrogant side of the student.
+         His wit eclipses further onto others. His faith in his abilities has
+         only increased.
+
+Line 10: The student scoffs again, that sorrows in memory are the best form
+         of sorrows, as they are in the past, and long gone.
+
+Line 11: Here we leave the students mind for a moment, and return to the
+         narrator, Will. The pleasure has been consumed. The student has
+         finalized his flamboyant display of arrogance. The 'jacks' referred
+         to here are the Jacks from a deck of cards. Implying that there
+         are others above the students in ability and in knowledge.
+
+Line 12: Here we have Will reveal himself as the omnipotent being that resolved
+         the trials of the student. Will was the one behind the vision.
+         Will 'cures' the student of his hubris, by explaining this, and
+         exclaims further that 'my I may morrow'. Will states, that tomorrow
+         he may, or he may not. Will implies his death here, his death after
+         curing the student, and saving the world from CS 24 taking another
+         life. We have here extremely high tension of emotion, as the student
+         realizes a god sacrified his life, in order to save him.
+
+Line 13: The student reveals that this is not the first instance of
+         'heart the control'. That is, the student has had visions before.
+         The student realizes that he has had other gods save him from CS 24,
+         the student cannot fathom how many angles have given their lives for
+         the his collegues and for himself.
+
+Line 14: 'Behind that then this stain', this knew knowledge sits as a stain,
+         however, behind it, 'love's now soul'. His love for his saviors
+         has been engrained into him. A part of him, eternally.
+
+
+
 
 
                    2
